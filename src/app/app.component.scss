@@ -1,0 +1,12 @@
+.main {
+  margin-block: var(--spacer-900);
+}
+
+.app-message {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30rem;
+  max-width: 100%;
+}

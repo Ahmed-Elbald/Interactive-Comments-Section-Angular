@@ -1,0 +1,9 @@
+<ng-container *ngrxLet="{comments: comments$, currentUser: currentUser$} as vm">
+    @for (comment of vm.comments; track comment.id) {
+    <app-comment [comment]="comment" [currentUser]="vm.currentUser" (formSubmit)="submitCommentForm($event)"
+        (voteChange)="changeCommentScore($event)" (commentDelete)="deleteComment($event)" @fadeInOut></app-comment>
+    }
+
+    <app-comment-form btnTxt="send" [currentUserImg]="vm.currentUser.image"
+        (formSubmit)="submitCommentForm($event)"></app-comment-form>
+</ng-container>

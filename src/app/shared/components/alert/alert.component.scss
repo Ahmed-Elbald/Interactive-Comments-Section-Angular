@@ -1,0 +1,18 @@
+.alert {
+  --bgClr: hsl(var(--clr-neu-600));
+  margin-top: var(--spacer-400);
+  padding: var(--spacer-500);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 5px hsl(var(--clr-neu-400));
+  background-color: var(--bgClr);
+  color: hsl(var(--clr-neu-100));
+
+  &[data-alert-type="error"] {
+    --bgClr: hsl(var(--clr-acc-500));
+  }
+
+  &__msg {
+    text-transform: capitalize;
+    text-align: center;
+  }
+}

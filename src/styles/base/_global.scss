@@ -1,0 +1,132 @@
+@use "./../abstracts/" as *;
+
+/* Global */
+:root {
+  --bodyTxtClr: hsl(var(--clr-neu-500));
+  --bodyBgClr: hsl(var(--clr-neu-200));
+
+  --scrollbarThumbBg: hsl(var(--clr-pr-700));
+  --scrollbarTrackBg: hsl(var(--clr-neu-100));
+
+  --focusStateOutlineWidth: 2px;
+  --focusStateOutlineClr: currentcolor;
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background-color: var(--scrollbarThumbBg);
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbarTrackBg);
+}
+
+::selection {
+  background-color: hsl(var(--clr-neu-600));
+  color: hsl(var(--clr-neu-100));
+}
+
+::backdrop {
+  background-color: hsl(0, 0%, 0%, 0.375);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  transition-duration: 125ms;
+
+  // @media (prefers-reduced-motion: true) {
+  //   transition-duration: 0ms;
+  // }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+body {
+  color: var(--bodyTxtClr);
+  background-color: var(--bodyBgClr);
+  font-family: var(--ff-pr);
+  font-size: var(--fs-400);
+  line-height: 1.5;
+}
+
+input,
+button,
+textarea,
+a {
+  outline-width: var(--focusStateOutlineWidth);
+  outline-color: transparent;
+
+  &:focus-visible {
+    outline-color: var(--focusStateOutlineClr);
+    text-decoration: none;
+  }
+
+  @supports not selector(:focus-visible) {
+    &:focus {
+      outline-color: var(--focusStateOutlineClr);
+      text-decoration: none;
+    }
+  }
+}
+
+input,
+button,
+textarea {
+  display: block;
+  border: none;
+  outline-offset: calc(-1 * var(--focusStateOutlineWidth));
+}
+
+input,
+textarea {
+  outline-style: solid;
+}
+
+a,
+button {
+  outline-style: dashed;
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  background-color: transparent;
+  color: inherit;
+  text-align: unset;
+  cursor: pointer;
+
+  > * {
+    pointer-events: none;
+  }
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  text-transform: inherit;
+  color: inherit;
+  outline-offset: 0;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

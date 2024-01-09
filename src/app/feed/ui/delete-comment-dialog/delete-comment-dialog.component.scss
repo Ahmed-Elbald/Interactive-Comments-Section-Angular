@@ -1,0 +1,28 @@
+@use "abstracts" as *;
+
+.dialog {
+  width: 90%;
+  max-width: 400px;
+  @include positionCentering();
+  position: fixed;
+  border: none;
+  padding: calc(1.25 * var(--spacer-700));
+  border-radius: 0.5rem;
+  background-color: hsl(var(--clr-neu-100));
+
+  &__heading {
+    color: hsl(var(--clr-neu-600));
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-700);
+  }
+
+  &__msg {
+    margin-block: var(--spacer-500);
+    color: hsl(var(--clr-neu-500));
+  }
+
+  &__controls {
+    --clusterSpacer: var(--spacer-400);
+    @include flexCluster();
+  }
+}

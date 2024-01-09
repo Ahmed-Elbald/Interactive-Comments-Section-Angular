@@ -1,0 +1,108 @@
+// SASS Variables
+
+$breakpoints: (
+  mobile: 576px,
+  tablet: 992px,
+  desktop: 1200px,
+);
+
+$border-radius: ();
+
+$textStyles: ("capitalize", "uppercase");
+
+$colors: (
+  pr: (
+    500: (
+      light: 238 40% 52%,
+    ),
+  ),
+  sec: (),
+  acc: (
+    500: (
+      light: 358 79% 66%,
+    ),
+    200: (
+      light: 357 100% 86%,
+    ),
+  ),
+  neu: (
+    100: (
+      light: 0 0% 100%,
+      dark: 0 0% 0%,
+    ),
+    200: (
+      light: 228 33% 97%,
+    ),
+    300: (
+      light: 223 19% 93%,
+    ),
+    400: (
+      light: 239 57% 85%,
+    ),
+    500: (
+      light: 211 10% 45%,
+    ),
+    600: (
+      light: 212 24% 26%,
+    ),
+    700: (
+      light: 0 0% 0%,
+      dark: 0 0% 100%,
+    ),
+  ),
+);
+
+$box-shadow: ();
+
+$fontFamilies: (
+  pr: "Rubik, sans-serif",
+);
+
+$fontWeights: (
+  regular: 400,
+  medium: 500,
+  bold: 700,
+);
+
+$sizes: (
+  "100": 0.025,
+  "200": 0.125,
+  "300": 0.25,
+  "400": 0.5,
+  "500": 1,
+  "600": 1.125,
+  "700": 1.25,
+  "800": 2.5,
+  "900": 3,
+  "1000": 4,
+  "1100": 5,
+  "1200": 6,
+  "1300": 8,
+);
+
+$font-sizes: (
+  "300": 0.875,
+  "400": 1,
+  "500": 1.125,
+  "600": 1.25,
+  "700": 1.75,
+  "800": 2,
+  "900": 3.5,
+  "1000": 6.25,
+  "1100": 9.375,
+);
+
+$zIndex: (
+  siteHeader: 2,
+  accessibilityLink: 3,
+  popup: 4,
+  errorMsg: 5,
+);
+
+$layoutSwitchBp: tablet;
+$smContainersWidth: calc(
+  map-get(
+      $map: $breakpoints,
+      $key: mobile,
+    ) + 50px
+);
