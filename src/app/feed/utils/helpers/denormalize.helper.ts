@@ -1,21 +1,22 @@
-import { ViewComment, StateComment } from "../models/comment.model";
-import { ViewReply, StateReply } from "../models/reply.model";
-import { CommentsStoreState } from "../models/state.model";
+import { StateInteraction, ViewInteraction } from "../models/interaction.model";
+import { ThreadStoreState } from "../models/state.model";
 
+// Denormalize state interactions to display them
+// StateInteraction => ViewInteraction
 export function denormalize
-    (comments: CommentsStoreState["comments"]) {
+    (interactions: ThreadStoreState["interactions"]) {
 
-    const denormalizedState: ViewComment[] = [];
+    const denormalizedState: ViewInteraction[] = [];
 
     // Clone state so that we don't mutate it.
-    const commentsClone = { ...comments };
+    const interactionsClone = { ...interactions };
 
     // Denormalize state and reture it.
-    for (let id in commentsClone) {
-        const comment = commentsClone[id] as StateComment;
+    for (const id in interactionsClone) {
+        const interaction = interactionsClone[id] as StateInteraction;
         denormalizedState.push({
-            ...comment,
-            replies: getReplies(comment.repliesIds)
+            ...interaction,
+            replies: getReplies(interaction.repliesIds)
         });
     }
     return denormalizedState
@@ -23,21 +24,21 @@ export function denormalize
 
     function getReplies(repliesIds: string[]) {
 
-        const replyTree: ViewReply[] = [];
+        const replyTree: ViewInteraction[] = [];
         if (repliesIds.length === 0) { // If there's no replies
             return replyTree;
         }
 
-        for (let id in commentsClone) { // For every comment/reply
+        for (const id in interactionsClone) { // For every interaction
             if (repliesIds.includes(id)) { // If this is a reply to the current comment
-                const reply = commentsClone[id] as StateReply;
+                const reply = interactionsClone[id] as StateInteraction;
                 replyTree.push({
                     ...reply,
                     replies: getReplies(reply.repliesIds), // Do the same for the reply
                 });
 
                 // Delete the reply so that we don't duplicate it.
-                delete commentsClone[id];
+                delete interactionsClone[id];
             }
         }
 

@@ -1,0 +1,36 @@
+<form [formGroup]="interactionForm" (ngSubmit)="submitForm()" class="interaction-form c-card"
+    [class.is-updating]="mode === 'edit'">
+
+    <!-- Current User Image -->
+    @if (currentUserImg) {
+    <div class="current-user-img" aria-hidden="true">
+        <img src="{{currentUserImg.webp}}" alt="">
+    </div>
+    }
+
+    <!-- Interaction Content -->
+    <section class="interaction-form__control-group">
+        <label [for]="'interaction' + (interactionId || interactionParentId) + 'ContentControl'" class="u-sr-only">
+            Your {{purpose}}
+        </label>
+        <span aria-hidden="true">{{interactionForm.controls.body.value}}</span>
+        <textarea name="interactionContent"
+            [id]="'interaction' + (interactionId || interactionParentId) + 'ContentControl'"
+            placeholder="{{mode === 'new' ? 'Add' : 'Edit'}} your {{purpose}}" formControlName="body"
+            [attr.aria-invalid]="!interactionForm.controls.body.valid" #contentControl>
+            {{interactionForm.controls.body.value}}
+        </textarea>
+    </section>
+
+    <!-- Cancel/Submit Button -->
+    <section class="interaction-form__btns">
+        @if (!isNewInteraction) {
+        <button class="c-btn" type="button" data-btn-type="danger" (click)="closeForm()">
+            cancel
+        </button>
+        }
+        <button class="c-btn" [attr.aria-disabled]="!interactionForm.valid">
+            {{btnTxt}}
+        </button>
+    </section>
+</form>

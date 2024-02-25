@@ -1,18 +1,22 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { DialogComponent } from '@models/dialog-component.model';
 import { fadeInOutAnimation } from '../../../shared/animations/app.animations';
+import { InteractionFormPurpose } from '../../utils/models/interaction-form.model';
 
 @Component({
-  selector: 'app-delete-comment-dialog',
+  selector: 'app-delete-interaction-dialog',
   standalone: true,
   imports: [],
-  templateUrl: './delete-comment-dialog.component.html',
-  styleUrl: './delete-comment-dialog.component.scss',
+  templateUrl: './delete-interaction-dialog.component.html',
+  styleUrl: './delete-interaction-dialog.component.scss',
   animations: [fadeInOutAnimation()]
 })
-export class DeleteCommentDialogComponent implements DialogComponent, AfterViewInit {
+export class DeleteInteractionDialogComponent implements DialogComponent, AfterViewInit {
+
+  // Input Variables
+  @Input() interactionType: InteractionFormPurpose = "comment";
 
   // View Children
   @ViewChild("dialog") dialog!: ElementRef<HTMLDialogElement>

@@ -1,8 +1,7 @@
 import { User } from "./User.model";
-import { StateComment } from "./comment.model";
-import { StateReply } from "./reply.model";
+import { StateInteraction } from "./interaction.model";
 
-export interface CommentsStoreState {
+export interface ThreadStoreState {
     currentUser: User,
-    comments: { [key: string]: StateComment | StateReply }
+    interactions: { [key: string]: StateInteraction }
 }

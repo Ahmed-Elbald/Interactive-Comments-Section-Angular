@@ -6,7 +6,7 @@
   margin-bottom: var(--spacer);
 }
 
-.comment {
+.interaction {
   &__inner {
     --footerHeight: 2.75rem;
     @include min-mq($layoutSwitchBp) {
