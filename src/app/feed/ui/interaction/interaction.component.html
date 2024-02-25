@@ -1,0 +1,141 @@
+<article class="interaction" *ngrxLet="interaction.parentId !== null as isReply">
+
+    <div class="interaction__inner c-card">
+
+        <!-- Header -->
+        <header class="interaction__header">
+            <a class="interaction__author-img" tabindex="-1"
+                [attr.aria-label]="interaction.user.username + '\'s profile'">
+                <img src="{{interaction.user.image.webp}}" alt="">
+            </a>
+            <p>
+                <span class="u-sr-only">posted by</span>
+                <a class="interaction__author-name u-text-neu-600 u-fw-bold" href="#"
+                    [attr.aria-label]="interaction.user.username">
+                    {{interaction.user.username}}
+                </a>
+                @if (isCurrentUser) {
+                <span aria-hidden="true" class="interaction__author-badge">
+                    you
+                </span>
+                }
+                <span class="interaction__publish-date">{{interaction.createdAt | dateFormat}}</span>
+            </p>
+        </header>
+
+        <!-- Body -->
+        <div class="interaction__body" [@childFadeInOutMerge]="isEditing">
+            @if (isEditing) {
+
+            <!-- Editing Form -->
+            <app-interaction-form [interactionId]="interaction.id" [replyingTo]="interaction.replyingTo || ''"
+                [interactionParentId]="interaction.parentId || undefined"
+                [defaultValue]="previousFormValue || interaction.content" (formSubmit)="submitForm($event)"
+                (formClose)="handleFormClose($event)"></app-interaction-form>
+            } @else {
+
+            <!-- Comment Content -->
+            <p>
+                @if (isReply) {
+                <span class="u-text-pr-500 u-fw-medium">
+                    <span class="u-sr-only">Replying to </span>
+                    <a href="#">
+                        <span aria-hidden="true">{{'@'}}</span>{{interaction.replyingTo}}
+                    </a>
+                </span>
+                }
+                {{interaction.content}}
+            </p>
+            }
+        </div>
+
+        <!-- Voting Buttons -->
+        <div class="interaction__voting-btns">
+            <div>
+
+                <!-- Upvote -->
+                <button type="button" class="u-text-neu-400" [class.js-pressed]="votingStatus === 1"
+                    [attr.aria-disabled]="isCurrentUser || votingStatus === 1"
+                    (click)="changeVote({value: 1, id: interaction.id, isCurrentUser})">
+                    <img src="./assets/images/icon-plus.svg" alt="Upvote this {{isReply ? 'reply' : 'comment'}}">
+                </button>
+
+                <!-- Downvote -->
+                <button type="button" class="u-text-neu-400" [class.js-pressed]="votingStatus === -1"
+                    [attr.aria-disabled]="isCurrentUser || votingStatus === -1"
+                    (click)="changeVote({value: -1, id: interaction.id, isCurrentUser})">
+                    <img src="./assets/images/icon-minus.svg" alt="Downvote this {{isReply ? 'reply' : 'comment'}}">
+                </button>
+
+                <!-- Interaction Score -->
+                <dl>
+                    <dt class="u-sr-only">
+                        {{isReply ? 'reply' : 'comment'}} score
+                    </dt>
+                    <dd class="u-text-pr-500 u-fs-500 u-fw-medium">
+                        {{interaction.score}}
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Authoring Buttons -->
+        <div class="interaction__authoring-btns">
+            <div>
+                @if (isCurrentUser) {
+
+                <!-- Delete -->
+                <button type="button" class="u-text-acc-500 u-text-capitalize u-fw-medium u-fs-500"
+                    (click)="deleteInteraction(interaction.id)">
+                    <img src="./assets/images/icon-delete.svg" alt="">
+                    <span class="u-ms-300">
+                        delete
+                        <span class="u-sr-only">this {{isReply ? 'reply' : 'comment'}}</span>
+                    </span>
+                </button>
+
+                <!-- Edit -->
+                <button type="button" class="u-text-pr-500 u-text-capitalize u-fw-medium u-fs-500"
+                    (click)="isEditing = true" #formOpener>
+                    <img src="./assets/images/icon-edit.svg" alt="">
+                    <span class="u-ms-300">
+                        edit
+                        <span class="u-sr-only">this {{isReply ? 'reply' : 'comment'}}</span>
+                    </span>
+                </button>
+                } @else {
+
+                <!-- Reply -->
+                <button type="button" class="u-text-pr-500 u-text-capitalize u-fw-medium u-fs-500"
+                    (click)="isReplying = true" #formOpener>
+                    <img src="./assets/images/icon-reply.svg" alt="">
+                    <span class="u-ms-300">
+                        reply
+                        <span class="u-sr-only">to this {{isReply ? 'reply' : 'comment'}}</span>
+                    </span>
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    @if (isReplying) {
+    <!-- Replying Form -->
+    <app-interaction-form [interactionParentId]="interaction.id" [currentUserImg]="currentUser.image"
+        [replyingTo]="interaction.user.username" (formSubmit)="submitForm($event)" (formClose)="handleFormClose($event)"
+        [defaultValue]="previousFormValue || ''" @fadeInOut></app-interaction-form>
+    }
+
+    @if (interaction.replies.length !== 0) {
+    <!-- Interaction Replies -->
+    <section class="interaction__replies" aria-label="Replies">
+        @for (reply of interaction.replies; track reply.id) {
+        <app-interaction [interaction]="reply" [currentUser]="currentUser" (formSubmit)="submitForm($event)"
+            (voteChange)="changeVote($event)" (interactionDelete)="deleteInteraction($event)"
+            @fadeInOut></app-interaction>
+        }
+    </section>
+    }
+
+</article>

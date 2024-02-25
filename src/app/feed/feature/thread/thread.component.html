@@ -1,0 +1,10 @@
+<ng-container *ngrxLet="{interactions: interactions$, currentUser: currentUser$} as vm">
+    @for (interaction of vm.interactions; track interaction.id) {
+    <app-interaction [interaction]="interaction" [currentUser]="vm.currentUser"
+        (formSubmit)="submitInteractionForm($event)" (voteChange)="changeInteractionScore($event)"
+        (interactionDelete)="deleteInteraction($event)" @fadeInOut></app-interaction>
+    }
+
+    <app-interaction-form btnTxt="send" [currentUserImg]="vm.currentUser.image"
+        (formSubmit)="submitInteractionForm($event)"></app-interaction-form>
+</ng-container>

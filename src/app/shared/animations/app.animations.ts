@@ -26,7 +26,7 @@ export function growShrinkAnimation(animationConfig?: AnimationConfig) {
     return enterLeaveAnimationFactory(animationConfig, "growShrink", { height: 0 }, { height: "*" })
 }
 
-export const childFadeInOutAnimatoin = trigger(
+export const childFadeInOutMerge = trigger(
     "childFadeInOutMerge",
     [
         transition("* => *", [

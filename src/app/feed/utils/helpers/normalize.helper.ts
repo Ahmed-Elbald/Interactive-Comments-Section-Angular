@@ -1,33 +1,34 @@
 import { v4 as uuid4 } from 'uuid'
 
-import { FetchedComment } from "../models/comment.model";
-import { FetchedReply } from '../models/reply.model';
-import { CommentsStoreState } from '../models/state.model';
+import { ThreadStoreState } from '../models/state.model';
+import { FetchedInteraction } from '../models/interaction.model';
 
-export function normalize(fetchedComments: (FetchedComment | FetchedReply)[]) {
+// Normalize the fetched interactions to store them in the state
+// FetchedInteraction => StateInteraction
+export function normalize(FetchedInteractions: FetchedInteraction[]) {
 
-    const normalizedState: Pick<CommentsStoreState, "comments"> = {
-        comments: {}
+    const normalizedState: Pick<ThreadStoreState, "interactions"> = {
+        interactions: {}
     }
 
-    recurse(fetchedComments);
+    recurse(FetchedInteractions);
     return normalizedState;
 
-    function recurse(fetchedComments: (FetchedComment | FetchedReply)[], parentId?: string) {
-        for (let comment of fetchedComments) {
+    function recurse(FetchedInteractions: FetchedInteraction[], parentId?: string) {
+        for (const interaction of FetchedInteractions) {
 
             // Store replies before deleting
-            const replies = (comment.replies || []).map(reply => ({ ...reply, id: uuid4() }));
+            const replies = (interaction.replies || []).map(reply => ({ ...reply, id: uuid4() }));
             // Delete replies before destructuring
-            delete (comment as Partial<FetchedComment>).replies;
+            delete (interaction as Partial<FetchedInteraction>).replies;
 
-            // Add new comment/reply
-            const id = parentId ? comment.id : uuid4();
-            normalizedState["comments"][id] = {
-                ...comment,
+            // Add new interaction
+            const id = parentId ? interaction.id : uuid4();
+            normalizedState["interactions"][id] = {
+                ...interaction,
                 id,
                 repliesIds: replies?.map(reply => reply.id),
-                parentId
+                parentId: parentId || null
             }
 
             // Recursion => When there are replies
