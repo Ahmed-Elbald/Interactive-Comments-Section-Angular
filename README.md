@@ -21,6 +21,8 @@
 
 _\*In this project, and since comments and replies are almost the same, I have decided to give both of them the term 'Interaction'. That makes it easier to build shared models and components._
 
+_\*I have decided to build this comments section as a part of a larger project as such sections doesn't exist on their own in real world applications. Therefore, I have a feature called "feed" that has my sub-feature "interactions"_
+
 _\*Regarding the structure of each feature's folder, I took that from
 [Joshua Morony's video](https://youtu.be/7SDpTOLeqHE?si=wTS9S5t-O4tRaJ_t) about structuring Angular projects._
 
